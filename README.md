@@ -380,6 +380,5 @@ Built a full-stack AI-powered platform using Django, React.js, and Machine Learn
 
 Pranjal Patil
 
-GitHub: [https://github.com/](https://github.com/)
-LinkedIn: [https://linkedin.com/](https://linkedin.com/)
+
 
