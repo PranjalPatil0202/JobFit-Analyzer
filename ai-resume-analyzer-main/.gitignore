@@ -1,0 +1,22 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Environment Variables
+.env
+
+# PDFs
+*.pdf
+
+# Node Modules
+node_modules/
+
+# Build
+dist/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
