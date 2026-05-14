@@ -3,6 +3,7 @@ import api from '../api/axios';
 import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+
   const [resumes, setResumes] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
   const [file, setFile] = useState(null);
@@ -14,7 +15,9 @@ const Dashboard = () => {
 
   // Fetch dashboard data
   const fetchDashboardData = useCallback(async () => {
+
     try {
+
       setLoading(true);
 
       const [resumesRes, jobsRes] = await Promise.all([
@@ -39,10 +42,10 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
+
   }, [navigate]);
 
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     fetchDashboardData();
   }, [fetchDashboardData]);
 
@@ -53,6 +56,7 @@ const Dashboard = () => {
 
   // Upload resume
   const handleUpload = async (e) => {
+
     e.preventDefault();
 
     if (!file) return;
@@ -71,10 +75,8 @@ const Dashboard = () => {
         }
       });
 
-      setFile(null);
-
       // Refresh dashboard data
-      fetchDashboardData();
+      await fetchDashboardData();
 
     } catch (err) {
 
@@ -94,11 +96,9 @@ const Dashboard = () => {
   // Logout function
   const handleLogout = () => {
 
-    // Remove tokens
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
 
-    // Redirect user to login page
     navigate('/login');
   };
 
@@ -114,6 +114,7 @@ const Dashboard = () => {
 
       {/* Header */}
       <header className="dashboard-header">
+
         <h2>Your Career Dashboard</h2>
 
         <button
@@ -122,15 +123,21 @@ const Dashboard = () => {
         >
           Logout
         </button>
+
       </header>
 
       {/* Error Message */}
-      {error && <div className="error">{error}</div>}
+      {error && (
+        <div className="error">
+          {error}
+        </div>
+      )}
 
       <div className="dashboard-grid">
 
         {/* Upload Resume Card */}
         <div className="card upload-card">
+
           <h3>Upload Resume (PDF)</h3>
 
           {uploadError && (
@@ -140,11 +147,22 @@ const Dashboard = () => {
           )}
 
           <form onSubmit={handleUpload}>
+
             <input
               type="file"
               accept=".pdf"
               onChange={handleFileChange}
             />
+
+            {/* Selected File */}
+            {file && (
+              <p
+                className="text-muted"
+                style={{ marginTop: "10px" }}
+              >
+                Selected File: {file.name}
+              </p>
+            )}
 
             <button
               type="submit"
@@ -153,73 +171,106 @@ const Dashboard = () => {
             >
               {loading ? "Uploading..." : "Upload & Analyze"}
             </button>
+
+            {/* View Uploaded Resume */}
+            {latestResume?.resume_file && (
+              <div style={{ marginTop: "15px" }}>
+
+                <a
+                  href={latestResume.resume_file}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary"
+                  style={{
+                    display: "inline-block",
+                    textDecoration: "none",
+                    padding: "10px 15px"
+                  }}
+                >
+                  View Uploaded Resume
+                </a>
+
+              </div>
+            )}
+
           </form>
+
         </div>
 
         {/* Skills Card */}
         <div className="card skills-card">
+
           <h3>Your Extracted Skills</h3>
 
           {latestResume ? (
 
-            latestResume.skills && latestResume.skills.length > 0 ? (
+            latestResume.skills &&
+            latestResume.skills.length > 0 ? (
 
               <div className="skills-tags">
+
                 {latestResume.skills.map((skill) => (
+
                   <span
                     key={skill.id}
                     className="skill-tag"
                   >
                     {skill.name}
                   </span>
+
                 ))}
+
               </div>
 
             ) : (
+
               <p className="text-muted">
                 No skills found. Try uploading a different resume.
               </p>
+
             )
 
           ) : (
+
             <p className="text-muted">
               Upload a resume to see your skills.
             </p>
+
           )}
+
         </div>
+
       </div>
 
       {/* Recommendations */}
       <div className="card recommendations-card">
+
         <h3>Recommended Jobs for You</h3>
 
         {recommendations.length > 0 ? (
 
           <div className="jobs-list">
 
-            {recommendations.map((job) => (
+            {recommendations.map((job, index) => (
 
               <div
-                key={job.id}
+                key={index}
                 className="job-item"
               >
 
                 <div className="job-header">
+
                   <h4>{job.title}</h4>
 
                   <span className="match-badge">
                     Match: {job.match_score}%
                   </span>
+
                 </div>
 
                 <p className="job-desc">
                   {job.description}
                 </p>
-
-                <div className="job-skills">
-                  <strong>Required: </strong>
-                  {job.required_skills}
-                </div>
 
               </div>
 
@@ -228,10 +279,13 @@ const Dashboard = () => {
           </div>
 
         ) : (
+
           <p className="text-muted">
             No job recommendations available at the moment.
           </p>
+
         )}
+
       </div>
 
     </div>
