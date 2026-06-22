@@ -84,15 +84,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'ai_resume_analyzer.wsgi.application'
 
 # Database
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ai_resume_db',
-        'USER': 'postgres',
-        'PASSWORD': 'pranjal',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    "default": dj_database_url.config(
+        default=os.getenv("DATABASE_URL")
+    )
 }
 
 # Password validation
