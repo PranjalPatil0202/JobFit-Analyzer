@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/',
+  baseURL: 'https://resumeiq-jobfit-analyzer.onrender.com/api/',
 });
 
 api.interceptors.request.use(
@@ -31,7 +31,7 @@ api.interceptors.response.use(
       if (refreshToken) {
         try {
           // Attempt to refresh token using base axios to avoid infinite loops
-          const res = await axios.post('http://localhost:8000/api/token/refresh/', {
+          const res = await axios.post('https://resumeiq-jobfit-analyzer.onrender.com/api/token/refresh/', {
             refresh: refreshToken
           });
           
