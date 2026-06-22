@@ -20,9 +20,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f%trmono8%98u9ouxxe(bzgtnyyqk&y*%+)9e-a(0r#r7s@bxq'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "resumeiq-jobfit-analyzer.onrender.com",
+    "resume-iq-job-fit-analyzer.vercel.app",
+    "127.0.0.1",
+    "localhost",
+]
 
 # Installed apps
 INSTALLED_APPS = [
